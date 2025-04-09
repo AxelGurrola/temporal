@@ -6,6 +6,10 @@
       <input v-model="password" type="password" placeholder="Password" required />
       <button type="submit">Login</button>
     </form>
+    <!-- Enlace para navegar al registro -->
+    <p>
+      ¿No tienes una cuenta? <router-link to="/register">Regístrate aquí</router-link>
+    </p>
   </div>
 </template>
 
@@ -17,10 +21,14 @@ const email = ref('');
 const password = ref('');
 
 const login = async () => {
-  const res = await axios.post('http://localhost:3000/login', {
-    email: email.value,
-    password: password.value
-  });
-  alert(res.data.message);
+  try {
+    const res = await axios.post('http://localhost:3000/login', {
+      email: email.value,
+      password: password.value
+    });
+    alert(res.data.message);
+  } catch (error) {
+    alert(error.response.data.message || 'Error en el login');
+  }
 };
 </script>
