@@ -7,9 +7,7 @@
       <button type="submit">Login</button>
     </form>
     <!-- Enlace para navegar al registro -->
-    <p>
-      ¿No tienes una cuenta? <router-link to="/register">Regístrate aquí</router-link>
-    </p>
+    <button type="button">registro</button>
   </div>
 </template>
 
