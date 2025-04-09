@@ -1,9 +1,38 @@
 version: '3.8'
 
 services:
-  vue-app:
+  frontend:
     build:
-      context: .
-      dockerfile: DOCKERFILE
+      context: ./frontend
     ports:
       - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: vueuser
+      DB_PASSWORD: ejemplo_pass
+      DB_NAME: vueappdb
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: vueappdb
+      MYSQL_USER: vueuser
+      MYSQL_PASSWORD: ejemplo_pass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:
